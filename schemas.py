@@ -15,7 +15,7 @@ class BookRead(BookBase):
     author_id: Optional[int]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class AuthorBase(BaseModel):
@@ -30,4 +30,4 @@ class AuthorRead(AuthorBase):
     books: List[BookRead] = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True
