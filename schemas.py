@@ -12,7 +12,7 @@ class BookCreate(BookBase):
 
 class BookRead(BookBase):
     id: int
-    author_id: Optional[int]
+    author_id: int
 
     class Config:
         from_attributes = True

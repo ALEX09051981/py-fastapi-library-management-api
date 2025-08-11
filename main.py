@@ -2,9 +2,8 @@ from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 
-import models, schemas, crud
-from database import SessionLocal, engine, Base
-
+import schemas, crud
+from database import SessionLocal
 
 
 app = FastAPI(title="Library Management API")
@@ -22,8 +21,6 @@ def get_db():
 def create_author(author: schemas.AuthorCreate, db: Session = Depends(get_db)):
     try:
         db_author = crud.create_author(db, author)
-        db.commit()
-        db.refresh(db_author)
         return db_author
     except IntegrityError:
         db.rollback()
@@ -49,8 +46,6 @@ def create_book_for_author(author_id: int, book: schemas.BookCreate, db: Session
     if not db_author:
         raise HTTPException(status_code=404, detail="Author not found")
     db_book = crud.create_book_for_author(db, author_id, book)
-    db.commit()
-    db.refresh(db_book)
     return db_book
 
 
